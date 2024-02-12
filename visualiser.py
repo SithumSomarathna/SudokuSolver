@@ -5,7 +5,7 @@ import time
 
 class Board:
 
-	def __init__(self, puzzle):
+	def __init__(self, puzzle=[[0] * 9] * 9):
 		self.c_white = (255,255,255)
 		self.c_yellow = (252, 186, 3)
 		self.c_green = (0, 212, 7)
@@ -62,7 +62,7 @@ class Board:
 						for i in range(9):
 							for j in range(9):
 								pygame.draw.rect(self.screen, self.c_green, pygame.Rect(80+60*j, 80+60*i, 60, 60), self.thickness)
-						self.wait(4)
+						pygame.display.flip()
 						return True
 					if(moves[seq].mode == 1):
 						pygame.draw.rect(self.screen, self.c_red, pygame.Rect(80+60*moves[seq].x, 80+60*moves[seq].y, 60, 60), self.thickness)
@@ -85,3 +85,61 @@ class Board:
 	def drawMoves(self, moves):
 		self.first = True
 		self.drawMov(moves)
+		running = True
+		while running:
+			for event in pygame.event.get():
+				if event.type == pygame.QUIT:
+					running = False
+		pygame.quit()
+
+	def moveCursor(self, x1, y1, x2, y2):
+		pygame.draw.rect(self.screen, self.c_white, pygame.Rect(80+60*x1, 80+60*y1, 60, 60), self.thickness)
+		pygame.draw.rect(self.screen, self.c_green, pygame.Rect(80+60*x2, 80+60*y2, 60, 60), self.thickness)
+		
+	def enterNumber(self, num, x, y, puzzle):
+		if num == "": puzzle[y][x] = 0
+		else: puzzle[y][x] = int(num)
+		pygame.draw.rect(self.screen, self.c_black, pygame.Rect(85+60*x, 85+60*y, 50, 50))
+		text = self.font.render(num, True, self.c_white)
+		text_rect = text.get_rect(center=(110+60*x, 110+60*y))
+		self.screen.blit(text, text_rect)
+	
+	def inputMoves(self, puzzle):
+		running = True
+		x = 0
+		y = 0
+		pygame.draw.rect(self.screen, self.c_green, pygame.Rect(80, 80, 60, 60), self.thickness)
+		while running:
+			for event in pygame.event.get():
+				if event.type == pygame.QUIT:
+					running = False
+				elif event.type == pygame.KEYDOWN:
+					if event.key == pygame.K_LEFT:
+						if x > 0:
+							self.moveCursor(x, y, x-1, y)
+							x -= 1
+					elif event.key == pygame.K_RIGHT:
+						if x < 8:
+							self.moveCursor(x, y, x+1, y)
+							x += 1
+					elif event.key == pygame.K_UP:
+						if y > 0:
+							self.moveCursor(x, y, x, y-1)
+							y -= 1
+					elif event.key == pygame.K_DOWN:
+						if y < 8:
+							self.moveCursor(x, y, x, y+1)
+							y += 1
+					elif event.unicode.isnumeric():
+						if event.unicode != "0": self.enterNumber(event.unicode, x, y, puzzle)
+					elif event.key == pygame.K_BACKSPACE:
+						self.enterNumber("", x, y, puzzle)
+					elif event.key == pygame.K_RETURN:
+						running = False
+
+
+			pygame.display.flip()
+		pygame.quit()
+        
+		
+	

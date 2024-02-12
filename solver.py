@@ -1,4 +1,5 @@
 import copy
+import sys
 
 class Move:
 	def __init__(self, x, y, num, mode):
@@ -25,7 +26,9 @@ def InitPossibilities(puzzle): #Returns a matching array where each cell of the 
 	for i in range(9):
 		possRow = POSS.copy()
 		for j in range(9):
-			if puzzle[i][j] != 0: possRow.discard(puzzle[i][j])
+			if puzzle[i][j] != 0:
+				if puzzle[i][j] in possRow: possRow.discard(puzzle[i][j])
+				else: sys.exit("Puzzle Error: Puzzle is invalid")
 		for j in range(9):	
 			if puzzle[i][j] == 0:
 				poss[i][j] = possRow	
@@ -34,7 +37,9 @@ def InitPossibilities(puzzle): #Returns a matching array where each cell of the 
 	for i in range(9):
 		possCol = POSS.copy()
 		for j in range(9):
-			if puzzle[j][i] != 0: possCol.discard(puzzle[j][i])
+			if puzzle[j][i] != 0: 
+				if puzzle[j][i] in possCol: possCol.discard(puzzle[j][i])
+				else: sys.exit("Puzzle Error: Puzzle is invalid")
 		for j in range(9):
 			if puzzle[j][i] == 0: poss[j][i] = poss[j][i].intersection(possCol)
 			
@@ -42,7 +47,9 @@ def InitPossibilities(puzzle): #Returns a matching array where each cell of the 
 	for i in range(9):
 		possSqrs = POSS.copy()
 		for j in range(9):
-			if puzzle[i//3*3+j//3][i%3*3+j%3] != 0: possSqrs.discard(puzzle[i//3*3+j//3][i%3*3+j%3])
+			if puzzle[i//3*3+j//3][i%3*3+j%3] != 0: 
+				if puzzle[i//3*3+j//3][i%3*3+j%3] in possSqrs: possSqrs.discard(puzzle[i//3*3+j//3][i%3*3+j%3])
+				else: sys.exit("Puzzle Error: Puzzle is invalid")
 		for j in range(9):
 			if puzzle[i//3*3+j//3][i%3*3+j%3] == 0: poss[i//3*3+j//3][i%3*3+j%3] = poss[i//3*3+j//3][i%3*3+j%3].intersection(possSqrs)
 
