@@ -1,5 +1,5 @@
-# SodukoSolver
-Processes a 9x9 Soduko grid and returns a solution if one exists, otherwise states that it is unsolvable. Can be configured to specify various methods of inputing puzzle and outputing solution.
+# SudokuSolver
+Processes a 9x9 Sudoku grid and returns a solution if one exists, otherwise states that it is unsolvable. Can be configured to specify various methods of inputing puzzle and outputing solution.
 
 ## Method
 This solver works similar to a regular sudoku backtracking solver except it also uses inference rules to deduce if any squares on the current branch's board are guaranteed before continuing with guessing.
