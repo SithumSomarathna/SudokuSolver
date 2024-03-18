@@ -18,6 +18,9 @@ Modify this to specify input and output methods.
 ### VISUAL
 	- Specifies whether the visualisation of how the solution was derived (if one exists) should be displayed after solving. (Note: for puzzle that required the exploration of many branches, the visualisation may take a lot of time to display)
 
+## Usage
+Run main.py. Puzzle input will depend on variables of config.py (see config.py for details). Puzzle will start solving once starting numbers are submitted
+
 ## Visualisation
 Green represents squares that are guaranteed in the current branch's board state
 Yellow represents squares that were guessed
